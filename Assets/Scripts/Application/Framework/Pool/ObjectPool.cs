@@ -33,4 +33,35 @@ public class ObjectPool : MonoBehaviour
       // 创建的子池子放入字典中
       m_pools.Add(pool.Name,pool);
    }
+   
+   //  回收单个物体方法
+   public void UnSpawn(GameObject go)
+   {
+      SubPool pool = null;
+      foreach (SubPool p in m_pools.Values)
+      {
+         // 查找到指定的对像
+         if (p.Contain(go))
+         {
+            pool = p;
+            break;
+         }
+      }
+
+      if (pool != null)
+      {
+         // 回收物体
+         pool.UnSpawn(go);
+      }
+   }
+   
+   // 回收所有物体
+   public void UnSpawnAll()
+   {
+      foreach (SubPool p in m_pools.Values)
+      {
+         p.UnSpawnAll();
+      }
+   }
+   
 }

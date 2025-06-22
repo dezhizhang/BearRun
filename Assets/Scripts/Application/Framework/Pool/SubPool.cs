@@ -58,7 +58,8 @@ public class SubPool
     // 回收对像池物体
     public void UnSpawn(GameObject go)
     {
-        if (m_objects.Contains(go))
+        // 检测集合中是否包含该对像
+        if (Contain(go))
         {
             go.SendMessage("OnUnSpawn", SendMessageOptions.DontRequireReceiver);
             go.SetActive(false);
@@ -75,5 +76,11 @@ public class SubPool
                 UnSpawn(go);
             }
         }
+    }
+
+    // 判断集合中是否用对像
+    public bool Contain(GameObject go)
+    {
+        return m_objects.Contains(go);
     }
 }
