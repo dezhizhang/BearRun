@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class ObjectPool : MonoBehaviour
+public class ObjectPool : MonoSingleton<ObjectPool>
 {
    // 资源的路径
    public string resourceDir;
