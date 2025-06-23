@@ -56,4 +56,29 @@ public abstract class MVC
     return null;
   }
 
+  // 发送事件
+  public static void SendEvent(string eventName, object data = null)
+  {
+    //  检测控制器执行
+    if (commandMap.ContainsKey(eventName))
+    {
+      Type t = commandMap[eventName];
+      // 通过反射实例化控制器
+      Controller c = Activator.CreateInstance(t) as Controller;
+      
+      // 调用执行器
+      c.Execte(data);
+    }
+
+    // 视图层执行对应的事件
+    foreach (View v in views.Values)
+    {
+      if (v.attentionList.Contains(eventName))
+      {
+        // 执行视图层事件
+        v.HandleEvent(eventName, data);
+      }
+    }
+  }
+  
 }
