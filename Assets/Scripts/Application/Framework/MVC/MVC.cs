@@ -15,6 +15,7 @@ public abstract class MVC
   // 注册视图
   public static void RegisterView(View view)
   {
+    view.RegisterAttentionEvent();
     views.Add(view.Name, view);
   }
   
