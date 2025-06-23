@@ -9,7 +9,7 @@ public abstract class MVC
   public static Dictionary<string,Model> models = new Dictionary<string, Model>();
   // 视图对像集合
   public static Dictionary<string,View> views = new Dictionary<string, View>();
-  // 定义命令集合
+  // 定义事件对像集合
   public static Dictionary<string,Type> commandMap = new Dictionary<string,Type>();
 
   // 注册视图
@@ -28,6 +28,32 @@ public abstract class MVC
   public static void RegisterController(string eventName, Type controllerType)
   {
     commandMap.Add(eventName,controllerType);
+  }
+
+  // 获取模型视图
+  public static T GetModel<T>() where T : Model
+  {
+    foreach (Model m in models.Values)
+    {
+      if (m is T)
+      {
+        return (T)m;
+      }
+    }
+    return null;
+  }
+
+  // 获取视图对像
+  public static View GetView<T>() where T : View
+  {
+    foreach (View v in views.Values)
+    {
+      if (v is T)
+      {
+        return (T)v;
+      }
+    }
+    return null;
   }
 
 }
