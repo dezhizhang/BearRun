@@ -15,6 +15,12 @@ public abstract class MVC
   // 注册视图
   public static void RegisterView(View view)
   {
+    // 防止注册重复的view
+    if (views.ContainsKey(view.name))
+    {
+      views.Remove(view.name);
+    }
+
     view.RegisterAttentionEvent();
     views.Add(view.Name, view);
   }

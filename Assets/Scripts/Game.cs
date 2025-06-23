@@ -8,11 +8,12 @@ using System;
 [RequireComponent(typeof(StaticData))]
 public class Game:MonoSingleton<Game>
 {
+   
     // 全局访问对像
     [HideInInspector]
-    public ObjectPool objectPool;
-    [HideInInspector]
     public Sound sound;
+    [HideInInspector]
+    public ObjectPool objectPool;
     [HideInInspector]
     public StaticData staticData;
     void Start()
@@ -34,7 +35,10 @@ public class Game:MonoSingleton<Game>
     
     public void LoadLevel(int level)
     {
-        ScenesArgs args = new ScenesArgs();
+        ScenesArgs args = new()
+        {
+            scenesIndex = SceneManager.GetActiveScene().buildIndex,
+        };
         // 获取当前活越的编号
         args.scenesIndex = SceneManager.GetActiveScene().buildIndex;
         // 发送事件数据
@@ -46,7 +50,10 @@ public class Game:MonoSingleton<Game>
     // 加载新场景
     private void OnLevelWasLoaded(int level)
     {
-        ScenesArgs args = new ScenesArgs();
+        ScenesArgs args = new() 
+        {
+            scenesIndex = SceneManager.GetActiveScene().buildIndex,
+        };
         args.scenesIndex = level;
         SendEvent(Consts.E_EnterScenes, args);
     }
