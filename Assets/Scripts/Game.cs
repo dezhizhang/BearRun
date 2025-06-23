@@ -1,7 +1,6 @@
 using UnityEngine;
-using System.Collections.Generic;
-using System.Collections;
 using UnityEngine.SceneManagement;
+using System;
 
 
 [RequireComponent(typeof(ObjectPool))]
@@ -24,10 +23,16 @@ public class Game:MonoSingleton<Game>
         sound = Sound.Instance;
         objectPool = ObjectPool.Instance;
         staticData = StaticData.Instance;
+        // 注册开始控制器
+        RegisterController(Consts.E_StartUp,typeof(StartUpController));
+        // 游戏启动发送消息
+        // 跳转场景
+        Game.Instance.LoadLevel(1);
+        
     }
 
-
-    void LoadLevel(int level)
+    
+    public void LoadLevel(int level)
     {
         ScenesArgs args = new ScenesArgs();
         // 获取当前活越的编号
@@ -35,7 +40,7 @@ public class Game:MonoSingleton<Game>
         // 发送事件数据
         SendEvent(Consts.E_ExitScenes,args);
         // 加载新场景
-        SceneManager.LoadScene(args.scenesIndex,LoadSceneMode.Single);
+        SceneManager.LoadScene(level,LoadSceneMode.Single);
     }
 
     // 加载新场景
@@ -51,4 +56,11 @@ public class Game:MonoSingleton<Game>
     {
         MVC.SendEvent(eventName, data);
     }
+    
+    // 注册控制器
+    protected void RegisterController(string eventName, Type controllerType)
+    {
+        MVC.RegisterController(eventName, controllerType);
+    }
+
 }
