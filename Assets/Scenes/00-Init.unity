@@ -206,7 +206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3121887db9944474ab4c6940fc25e68d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resourceDir: 
+  resourceDir: Assets/Resource/Objects
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

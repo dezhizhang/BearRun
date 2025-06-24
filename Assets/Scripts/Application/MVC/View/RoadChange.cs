@@ -2,13 +2,16 @@ using UnityEngine;
 
 public class RoadChange : MonoBehaviour
 {
+    [HideInInspector]
     public GameObject roadNow;
+    [HideInInspector]
     public GameObject roadNext;
+    [HideInInspector]
     public GameObject parent;
 
     private void Start()
     {
-        if (parent != null)
+        if (parent == null)
         {
             parent = new GameObject();
             parent.transform.position = Vector3.zero;
@@ -36,8 +39,11 @@ public class RoadChange : MonoBehaviour
 
     private void SpawnNewRoad()
     {
+        
+        int index = Random.Range(1, 5);
+        
         roadNow = roadNext;
-        roadNext = Game.Instance.objectPool.Spawn("Pattern_4",parent.transform);
+        roadNext = Game.Instance.objectPool.Spawn($"Pattern_{index}",parent.transform);
         roadNext.transform.position = roadNow.transform.position + new Vector3(0, 0, 160);
     }
 }

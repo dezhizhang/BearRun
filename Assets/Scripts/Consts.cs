@@ -11,5 +11,14 @@ public static class Consts
     
     // 视图名称
     public const string V_PlayerMove = "V_PlayerMove";
+
+    public enum InputDirection
+    {
+        Null,
+        Right,
+        Left,
+        Up,
+        Down,
+    }
     
 }
