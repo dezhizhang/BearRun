@@ -8,4 +8,8 @@ public static class Consts
     public const string E_EnterScenes = "E_EnterScene";
     // 
     public const string E_StartUp = "E_StartUp";
+    
+    // 视图名称
+    public const string V_PlayerMove = "V_PlayerMove";
+    
 }

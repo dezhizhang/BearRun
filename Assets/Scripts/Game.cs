@@ -28,7 +28,7 @@ public class Game:MonoSingleton<Game>
         RegisterController(Consts.E_StartUp,typeof(StartUpController));
         // 游戏启动发送消息
         // 跳转场景
-        Game.Instance.LoadLevel(1);
+        Game.Instance.LoadLevel(4);
         
     }
 
