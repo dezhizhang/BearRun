@@ -9,6 +9,10 @@ public class PlayerMove : View
 
     // 车道间的间距
     public float laneDistance = 2.0f;
+    // 重力
+    public float gravityValue = -9.81f;
+    // 跳越的高度
+    public float jumpHeight = 1.0f;
 
     // 玩家当前所在的车道
     public int playerCurrentLane = 0;
@@ -17,6 +21,11 @@ public class PlayerMove : View
     private InputDirection _inputDir = InputDirection.Null;
 
     private bool _activeInput = false;
+    
+    // 玩家是否在地面上
+    private bool _isGround = true;
+    // 重力系数数值
+    private Vector3 _velocity;
 
 
     // 按下的位置
@@ -85,7 +94,7 @@ public class PlayerMove : View
         }
 
         // 电脑按键输入
-        if (Input.GetKeyDown(KeyCode.W) && Input.GetKey(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.W) || Input.GetKey(KeyCode.Space))
         {
             _inputDir = InputDirection.Up;
         }
@@ -113,29 +122,38 @@ public class PlayerMove : View
             case InputDirection.Null:
                 break;
             case InputDirection.Up:
+                _velocity.y = _velocity.y + Mathf.Sqrt(jumpHeight * -3 * gravityValue);
+                SendMessage("AnimManager",_inputDir);
                 break;
             case InputDirection.Down:
+                SendMessage("AnimManager",_inputDir);
                 break;
             case InputDirection.Left:
                 MoveLane(false);
+                SendMessage("AnimManager",_inputDir);
                 break;
             case InputDirection.Right:
                 MoveLane(true);
+                SendMessage("AnimManager",_inputDir);
                 break;
             default:
                 break;
         }
 
-        if (_inputDir != InputDirection.Null)
-        {
-            SendMessage("AnimManager",_inputDir);
-        }
+      
     }
 
 
     // 玩家移动
     private void PlayerDoMove()
     {
+        _isGround = _mcc.isGrounded;
+
+        if (_isGround && _velocity.y < 0)
+        {
+            _velocity.y = 0;
+        }
+
         // 移动的距离
         float targetX = playerCurrentLane * laneDistance;
         Vector3 targetPos = new Vector3(targetX, transform.position.y, transform.position.z);
@@ -143,6 +161,9 @@ public class PlayerMove : View
         Vector3 moveDir = targetPos - transform.position;
 
         _mcc.Move((moveDir + transform.forward) * speed * Time.deltaTime);
+        
+        _velocity.y = _velocity.y + gravityValue * Time.deltaTime;
+        _mcc.Move(_velocity *  Time.deltaTime);
     }
 
     // 调整玩家移动车道
