@@ -6,11 +6,18 @@ public class PlayerMove : View
 {
     // 人物移动速度
     public float speed = 20.0f;
+
+    // 车道间的间距
+    public float laneDistance = 2.0f;
+
+    // 玩家当前所在的车道
+    public int playerCurrentLane = 0;
     private CharacterController _mcc;
 
     private InputDirection _inputDir = InputDirection.Null;
 
     private bool _activeInput = false;
+
 
     // 按下的位置
     private Vector3 _mousePos;
@@ -33,9 +40,12 @@ public class PlayerMove : View
 
     private void Update()
     {
-        // 人物移动
-        _mcc.Move(transform.forward * speed * Time.deltaTime);
+        // 获取输入方向
         GetInputDirection();
+        // 更新位置
+        UpdatePosition();
+        // 玩家移动
+        PlayerDoMove();
     }
 
 
@@ -91,6 +101,50 @@ public class PlayerMove : View
         {
             _inputDir = InputDirection.Right;
         }
+
         _activeInput = false;
+    }
+
+    // 
+    private void UpdatePosition()
+    {
+        switch (_inputDir)
+        {
+            case InputDirection.Null:
+                break;
+            case InputDirection.Up:
+                break;
+            case InputDirection.Down:
+                break;
+            case InputDirection.Left:
+                MoveLane(false);
+                break;
+            case InputDirection.Right:
+                MoveLane(true);
+                break;
+            default:
+                break;
+        }
+    }
+
+
+    // 玩家移动
+    private void PlayerDoMove()
+    {
+        // 移动的距离
+        float targetX = playerCurrentLane * laneDistance;
+        Vector3 targetPos = new Vector3(targetX, transform.position.y, transform.position.z);
+        // 移动方向
+        Vector3 moveDir = targetPos - transform.position;
+
+        _mcc.Move((moveDir + transform.forward) * speed * Time.deltaTime);
+    }
+
+    // 调整玩家移动车道
+    private void MoveLane(bool right)
+    {
+        playerCurrentLane = playerCurrentLane + (right ? 1 : -1);
+        // 约束移动的距离
+        playerCurrentLane = Mathf.Clamp(playerCurrentLane, -1, 1);
     }
 }
