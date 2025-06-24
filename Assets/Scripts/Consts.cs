@@ -11,6 +11,8 @@ public static class Consts
     
     // 视图名称
     public const string V_PlayerMove = "V_PlayerMove";
+    // 玩家动画
+    public const string V_PlayerAnim = "V_PlayerAnim";
 
     public enum InputDirection
     {

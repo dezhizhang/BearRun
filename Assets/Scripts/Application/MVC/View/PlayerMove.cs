@@ -125,6 +125,11 @@ public class PlayerMove : View
             default:
                 break;
         }
+
+        if (_inputDir != InputDirection.Null)
+        {
+            SendMessage("AnimManager",_inputDir);
+        }
     }
 
 
