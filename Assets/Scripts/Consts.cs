@@ -9,6 +9,12 @@ public static class Consts
     // 
     public const string E_StartUp = "E_StartUp";
     
+    
+    public const string M_GameModel = "M_GameModel";
+    
+    
+    
+    
     // 视图名称
     public const string V_PlayerMove = "V_PlayerMove";
     // 玩家动画

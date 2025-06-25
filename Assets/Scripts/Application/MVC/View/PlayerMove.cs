@@ -52,6 +52,8 @@ public class PlayerMove : View
     public bool isSlide;
     private float _distance = 0.0f;
 
+    private GameModel _gameModel;
+
 
     // 获取视图名称
     public override string Name
@@ -67,16 +69,21 @@ public class PlayerMove : View
     private void Awake()
     {
         _mcc = GetComponent<CharacterController>();
+
+        _gameModel = GetComponent<GameModel>();
     }
 
     private void Update()
     {
-        // 获取输入方向
-        GetInputDirection();
-        // 更新位置
-        UpdatePosition();
-        // 玩家移动
-        PlayerDoMove();
+        if (!_gameModel.IsPasue && _gameModel.IsPlay)
+        {
+            // 获取输入方向
+            GetInputDirection();
+            // 更新位置
+            UpdatePosition();
+            // 玩家移动
+            PlayerDoMove();
+        }
     }
 
 

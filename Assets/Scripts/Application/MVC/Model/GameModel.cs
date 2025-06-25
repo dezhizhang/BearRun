@@ -1,16 +1,27 @@
 using UnityEngine;
+using static Consts;
 
-public class GameModel : MonoBehaviour
+
+
+public class GameModel:Model
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+
+    #region 字段
+
+    private bool _isPlay = true;
+    private bool _isPasue = false;
+
+    #endregion
+    
+    #region 属性
+
+    public override string Name 
     {
-        
+        get => M_GameModel;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public bool IsPlay { get => _isPlay; set => _isPlay = value; }
+    public bool IsPasue { get => _isPasue; set => _isPasue = value; }
+    #endregion
+  
 }
