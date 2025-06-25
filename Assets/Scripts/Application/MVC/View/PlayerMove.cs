@@ -13,6 +13,14 @@ public class PlayerMove : View
     public float gravityValue = -9.81f;
     // 跳越的高度
     public float jumpHeight = 1.0f;
+    
+    // 检测的层级
+    public LayerMask groundLayer;
+    
+    public Transform groundCheck;
+    //检测的半径
+    public float groundCheckRadius = 0.2f;
+    
 
     // 玩家当前所在的车道
     public int playerCurrentLane = 0;
@@ -147,7 +155,7 @@ public class PlayerMove : View
     // 玩家移动
     private void PlayerDoMove()
     {
-        _isGround = _mcc.isGrounded;
+        _isGround = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundLayer);
 
         if (_isGround && _velocity.y < 0)
         {
