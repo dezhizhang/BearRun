@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SubPool : MonoBehaviour
+public class SubPool
 {
     // 游戏物体集合
-    List<GameObject> _objects = new List<GameObject>();
+    private List<GameObject> _objects = new List<GameObject>();
 
     // 预质体
     private GameObject _perfab;
@@ -46,10 +46,8 @@ public class SubPool : MonoBehaviour
 
         if (!go)
         {
-            // 如果集合中不存在则生成
-            go = Instantiate(_perfab);
-            go.transform.parent = _parent;
-            // 添加到集合里
+            //如果集合中不存在则生成
+            go = GameObject.Instantiate(_perfab, _parent);
             _objects.Add(go);
         }
 
