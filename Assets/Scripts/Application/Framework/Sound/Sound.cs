@@ -54,4 +54,20 @@ public class Sound : MonoSignleton<Sound>
             }
         }
     }
+
+
+    /// <summary>
+    /// 播放短音效
+    /// </summary>
+    /// <param name="audioName"></param>
+    public void PlayEffect(string audioName)
+    {
+        string path = resourceDir + "/" + audioName;
+        AudioClip clip = Resources.Load<AudioClip>(path);
+        if (clip == null)
+        {
+            // 播放短音效
+            _effect.PlayOneShot(clip);
+        }
+    }
 }
