@@ -1,0 +1,72 @@
+using Unity.Burst.CompilerServices;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+// 组件自动挂载
+[RequireComponent(typeof(AudioSource))]
+[RequireComponent(typeof(ObjectPool))]
+[RequireComponent(typeof(StaticData))]
+public class Game : MonoSignleton<Game>
+{
+    // 隐藏属性
+    [HideInInspector]
+    // 全局声音 
+    public Sound sound;
+
+    // 隐藏属性
+    [HideInInspector]
+    //  全局对像池
+    public ObjectPool objectPool;
+
+    // 隐藏属性
+    [HideInInspector]
+    // 全局对像数据
+    public StaticData staticData;
+
+
+    /// <summary>
+    /// 初始化实例
+    /// </summary>
+    private void Start()
+    {
+        // 场景切换时不被毁销
+        DontDestroyOnLoad(this);
+        sound = Sound.Instance;
+        objectPool = ObjectPool.Instance;
+        staticData = StaticData.Instance;
+    }
+
+    /// <summary>
+    /// 加载关卡
+    /// </summary>
+    private void LoadLevel(int level)
+    {
+        SceneArgs sceneArgs = new SceneArgs();
+        // 获取关卡编号
+        sceneArgs.sceneIndex = SceneManager.GetActiveScene().buildIndex;
+        // 发送事件关卡
+        SendEvent(Constants.E_EXIT_SCENES, sceneArgs);
+
+        // 发送退出场景
+        SceneManager.LoadScene(sceneArgs.sceneIndex, LoadSceneMode.Single);
+    }
+
+
+    private void OnLevelWasLoaded(int level)
+    {
+        SceneArgs sceneArgs = new SceneArgs();
+        sceneArgs.sceneIndex = level;
+        // 发送加载场景
+        SendEvent(Constants.E_ENTER_SCENES, sceneArgs);
+    }
+
+    /// <summary>
+    /// 发送事件方法
+    /// </summary>
+    /// <param name="eventName"></param>
+    /// <param name="data"></param>
+    protected void SendEvent(string eventName, object data = null)
+    {
+        MVC.SendEvent(eventName, data);
+    }
+}
