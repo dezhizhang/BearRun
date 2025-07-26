@@ -40,10 +40,11 @@ public class SubPool : MonoBehaviour
             if (!obj.activeSelf)
             {
                 go = obj;
+                break;
             }
         }
 
-        if (go == null)
+        if (!go)
         {
             // 如果集合中不存在则生成
             go = Instantiate(_perfab);
