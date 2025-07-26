@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public abstract class MVC
 {
@@ -29,7 +27,8 @@ public abstract class MVC
     /// </summary>
     /// <param name="view"></param>
     public static void RegisterView(View view)
-    {
+    {   
+        view.RegisterAttentionEvent();
         views.Add(view.Name, view);
     }
 
