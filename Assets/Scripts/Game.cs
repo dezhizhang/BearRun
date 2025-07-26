@@ -1,4 +1,4 @@
-using Unity.Burst.CompilerServices;
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -34,12 +34,17 @@ public class Game : MonoSignleton<Game>
         sound = Sound.Instance;
         objectPool = ObjectPool.Instance;
         staticData = StaticData.Instance;
+
+        // 注册开始控制器
+        RegisterController(Constants.E_START_UP_CONTROLLER, typeof(StartUpController));
+        // 加载关卡
+        Game.Instance.LoadLevel(1);
     }
 
     /// <summary>
     /// 加载关卡
     /// </summary>
-    private void LoadLevel(int level)
+    public void LoadLevel(int level)
     {
         SceneArgs sceneArgs = new SceneArgs();
         // 获取关卡编号
@@ -48,7 +53,7 @@ public class Game : MonoSignleton<Game>
         SendEvent(Constants.E_EXIT_SCENES, sceneArgs);
 
         // 发送退出场景
-        SceneManager.LoadScene(sceneArgs.sceneIndex, LoadSceneMode.Single);
+        SceneManager.LoadScene(level, LoadSceneMode.Single);
     }
 
 
@@ -68,5 +73,15 @@ public class Game : MonoSignleton<Game>
     protected void SendEvent(string eventName, object data = null)
     {
         MVC.SendEvent(eventName, data);
+    }
+
+    /// <summary>
+    ///  注册控制器
+    /// </summary>
+    /// <param name="eventName"></param>
+    /// <param name="controllerType"></param>
+    protected void RegisterController(string eventName, Type controllerType)
+    {
+        MVC.RegisterController(eventName, controllerType);
     }
 }
