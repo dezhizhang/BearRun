@@ -45,12 +45,12 @@ public class ObjectPool : MonoBehaviour
     }
 
     /// <summary>
-    /// 回收单个物体
+    /// 回收单个游戏物体
     /// </summary>
     /// <param name="go"></param>
     public void UnSpawn(GameObject go)
     {
-        SubPool pool;
+        SubPool pool = null;
         foreach (var p in _pools.Values)
         {
             if (p.Contains(go))
@@ -58,6 +58,23 @@ public class ObjectPool : MonoBehaviour
                 pool = p;
                 break;
             }
+        }
+
+        if (pool != null)
+        {
+            pool.UnSpawn(go);
+        }
+    }
+
+    /// <summary>
+    /// 回收所有物体
+    /// </summary>
+    public void UnSpawnAll()
+    {
+        foreach (var p in _pools.Values)
+        {
+            // 
+            p.UnSpawnAll();
         }
     }
 }
