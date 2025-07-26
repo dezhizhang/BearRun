@@ -26,7 +26,10 @@ public class SubPool : MonoBehaviour
         _perfab = go;
     }
 
-    // 生成时执行方法
+    /// <summary>
+    /// 创建对偈池物体
+    /// </summary>
+    /// <returns></returns>
     public GameObject Spawn()
     {
         GameObject go = null;
@@ -54,5 +57,35 @@ public class SubPool : MonoBehaviour
         go.SendMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
 
         return go;
+    }
+
+    /// <summary>
+    /// 回收对像池物体
+    /// </summary>
+    /// <param name="go"></param>
+    public void UnSpawn(GameObject go)
+    {
+        // 判断是否
+        if (_objects.Contains(go))
+        {
+            // 发送消息
+            go.SetActive(false);
+            go.SendMessage("OnUnSpawn", SendMessageOptions.DontRequireReceiver);
+        }
+    }
+
+
+    /// <summary>
+    /// 回收所有对像池物体
+    /// </summary>
+    public void UnSpawnAll()
+    {
+        foreach (var obj in _objects)
+        {
+            if (obj.activeSelf)
+            {
+                UnSpawn(obj);
+            }
+        }
     }
 }
