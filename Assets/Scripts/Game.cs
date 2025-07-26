@@ -46,9 +46,11 @@ public class Game : MonoSignleton<Game>
     /// </summary>
     public void LoadLevel(int level)
     {
-        SceneArgs sceneArgs = new SceneArgs();
-        // 获取关卡编号
-        sceneArgs.sceneIndex = SceneManager.GetActiveScene().buildIndex;
+        SceneArgs sceneArgs = new SceneArgs()
+        {
+            sceneIndex = SceneManager.GetActiveScene().buildIndex
+        };
+
         // 发送事件关卡
         SendEvent(Constants.E_EXIT_SCENES, sceneArgs);
 
@@ -56,11 +58,16 @@ public class Game : MonoSignleton<Game>
         SceneManager.LoadScene(level, LoadSceneMode.Single);
     }
 
-
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="level"></param>
     private void OnLevelWasLoaded(int level)
     {
-        SceneArgs sceneArgs = new SceneArgs();
-        sceneArgs.sceneIndex = level;
+        SceneArgs sceneArgs = new SceneArgs
+        {
+            sceneIndex = level
+        };
         // 发送加载场景
         SendEvent(Constants.E_ENTER_SCENES, sceneArgs);
     }

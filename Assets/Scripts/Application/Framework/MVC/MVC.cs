@@ -27,7 +27,14 @@ public abstract class MVC
     /// </summary>
     /// <param name="view"></param>
     public static void RegisterView(View view)
-    {   
+    {
+        // 如果存在则移除
+        if (views.ContainsKey(view.Name))
+        {
+            // 防止重复注册
+            views.Remove(view.Name);
+        }
+
         view.RegisterAttentionEvent();
         views.Add(view.Name, view);
     }
