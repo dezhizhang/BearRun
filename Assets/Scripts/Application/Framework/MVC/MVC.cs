@@ -16,15 +16,6 @@ public abstract class MVC
 
 
     /// <summary>
-    /// 注册视图
-    /// </summary>
-    /// <param name="view"></param>
-    public static void RegisterView(View view)
-    {
-        views.Add(view.Name, view);
-    }
-
-    /// <summary>
     /// 注册模型
     /// </summary>
     /// <param name="model"></param>
@@ -34,6 +25,16 @@ public abstract class MVC
     }
 
     /// <summary>
+    /// 注册视图
+    /// </summary>
+    /// <param name="view"></param>
+    public static void RegisterView(View view)
+    {
+        views.Add(view.Name, view);
+    }
+
+
+    /// <summary>
     /// 注册控制器
     /// </summary>
     /// <param name="eventName"></param>
@@ -41,5 +42,41 @@ public abstract class MVC
     public static void RegisterController(string eventName, Type controllerType)
     {
         commandMap.Add(eventName, controllerType);
+    }
+
+    /// <summary>
+    /// 获取模型
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
+    public static T GetModel<T>() where T : Model
+    {
+        foreach (var model in models.Values)
+        {
+            if (model is T)
+            {
+                return (T)model;
+            }
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// 获取视图
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
+    public static T GetView<T>() where T : View
+    {
+        foreach (var view in views.Values)
+        {
+            if (view is T)
+            {
+                return (T)view;
+            }
+        }
+
+        return null;
     }
 }
