@@ -79,4 +79,33 @@ public abstract class MVC
 
         return null;
     }
+
+    /// <summary>
+    /// 发送事件
+    /// </summary>
+    /// <param name="eventName"></param>
+    /// <param name="data"></param>
+    public static void SendEvent(string eventName, object data = null)
+    {
+        if (commandMap.ContainsKey(eventName))
+        {
+            Type commandType = commandMap[eventName];
+            // 能过反射实例化控制器
+            Controller c = Activator.CreateInstance(commandType) as Controller;
+            if (c != null)
+            {
+                c.Execute(data);
+            }
+        }
+
+
+        foreach (var view in views.Values)
+        {
+            if (view.attentionList.Contains(eventName))
+            {
+                // 执行对应事件名称
+                view.HandleEvent(eventName, data);
+            }
+        }
+    }
 }
