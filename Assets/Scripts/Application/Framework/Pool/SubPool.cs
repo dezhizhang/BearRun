@@ -25,4 +25,34 @@ public class SubPool : MonoBehaviour
         _parent = parent;
         _perfab = go;
     }
+
+    // 生成时执行方法
+    public GameObject Spawn()
+    {
+        GameObject go = null;
+        // 检查集合是否有存在未使用的
+        foreach (var obj in _objects)
+        {
+            // 如果当前没有被使用
+            if (!obj.activeSelf)
+            {
+                go = obj;
+            }
+        }
+
+        if (go == null)
+        {
+            // 如果集合中不存在则生成
+            go = Instantiate(_perfab);
+            go.transform.parent = _parent;
+            // 添加到集合里
+            _objects.Add(go);
+        }
+
+        // 设置为true保险起见
+        go.SetActive(true);
+        go.SendMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
+
+        return go;
+    }
 }
