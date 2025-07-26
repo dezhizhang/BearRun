@@ -47,7 +47,7 @@ public class SubPool
         if (!go)
         {
             //如果集合中不存在则生成
-            go = GameObject.Instantiate(_perfab, _parent);
+            go = GameObject.Instantiate<GameObject>(_perfab, _parent);
             _objects.Add(go);
         }
 
@@ -64,8 +64,8 @@ public class SubPool
     /// <param name="go"></param>
     public void UnSpawn(GameObject go)
     {
-        // 判断是否
-        if (_objects.Contains(go))
+        // 检查集合中是否包含该对像
+        if (Contains(go))
         {
             // 发送消息
             go.SetActive(false);
@@ -86,5 +86,10 @@ public class SubPool
                 UnSpawn(obj);
             }
         }
+    }
+
+    public bool Contains(GameObject go)
+    {
+        return _objects.Contains(go);
     }
 }

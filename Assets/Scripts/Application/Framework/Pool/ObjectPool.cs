@@ -43,4 +43,21 @@ public class ObjectPool : MonoBehaviour
         SubPool pool = new SubPool(trans, go);
         _pools.Add(pool.Name, pool);
     }
+
+    /// <summary>
+    /// 回收单个物体
+    /// </summary>
+    /// <param name="go"></param>
+    public void UnSpawn(GameObject go)
+    {
+        SubPool pool;
+        foreach (var p in _pools.Values)
+        {
+            if (p.Contains(go))
+            {
+                pool = p;
+                break;
+            }
+        }
+    }
 }
