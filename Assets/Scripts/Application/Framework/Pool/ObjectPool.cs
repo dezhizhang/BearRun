@@ -5,7 +5,7 @@ using System.Collections.Generic;
 /// <summary>
 /// 对像池物体
 /// </summary>
-public class ObjectPool : MonoBehaviour
+public class ObjectPool : MonoSignleton<ObjectPool>
 {
     // 资源目录
     public string resourceDir;
