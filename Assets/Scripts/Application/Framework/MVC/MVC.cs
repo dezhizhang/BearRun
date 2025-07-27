@@ -19,6 +19,7 @@ public abstract class MVC
     /// <param name="model"></param>
     public static void RegisterModel(Model model)
     {
+        
         models.Add(model.Name, model);
     }
 
