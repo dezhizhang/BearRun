@@ -8,6 +8,12 @@ public class PlayMove : View
 {
     public float speed = 20.0f;
 
+    // 道路距离
+    public float landDistance = 2.0f;
+
+    // 当前所在车道
+    public int currentLane = 0;
+
     // 输入方向
     private InputDir _inputDir = InputDir.Null;
 
@@ -34,10 +40,14 @@ public class PlayMove : View
 
     private void Update()
     {
-        _controller.Move(transform.forward * speed * Time.deltaTime);
         GetInputDir();
+        UpdateDir();
+        DoMove();
     }
 
+    /// <summary>
+    /// 获取按键的移动方向
+    /// </summary>
     private void GetInputDir()
     {
         // 重置输入方向
@@ -99,5 +109,48 @@ public class PlayMove : View
         {
             _inputDir = InputDir.Right;
         }
+    }
+
+    /// <summary>
+    /// 更新玩家移动方向
+    /// </summary>
+    private void UpdateDir()
+    {
+        switch (_inputDir)
+        {
+            case InputDir.Null:
+                break;
+            case InputDir.Up:
+                break;
+            case InputDir.Down:
+                break;
+            case InputDir.Left:
+                MoveLane(false);
+                break;
+            case InputDir.Right:
+                MoveLane(true);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void DoMove()
+    {
+        float targetX = currentLane * landDistance;
+        Vector3 targetPos = new Vector3(targetX, transform.position.y, transform.position.z);
+        // 移动方向
+        Vector3 moveDir = targetPos - transform.position;
+        _controller.Move((moveDir + transform.forward) * speed * Time.deltaTime);
+        // _controller.Move(transform.forward * speed * Time.deltaTime);
+    }
+
+    /// <summary>
+    /// 移动的道路线
+    /// </summary>
+    private void MoveLane(bool right)
+    {
+        currentLane = currentLane + (right ? 1 : -1);
+        currentLane = Mathf.Clamp(currentLane, -1, 1);
     }
 }
