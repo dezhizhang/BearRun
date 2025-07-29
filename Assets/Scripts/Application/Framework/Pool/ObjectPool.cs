@@ -8,7 +8,7 @@ using System.Collections.Generic;
 public class ObjectPool : MonoSignleton<ObjectPool>
 {
     // 资源目录
-    public string resourceDir;
+    public UnityEngine.Object  resourceDir;
 
     // 存储不同类型的subpool的字典
     private Dictionary<string, SubPool> _pools = new Dictionary<string, SubPool>();
@@ -36,11 +36,17 @@ public class ObjectPool : MonoSignleton<ObjectPool>
     /// <returns></returns>
     public void RegisterNew(string name, Transform trans)
     {
-        string path = resourceDir + "/" + name;
+        
+        string dir = UnityEditor.AssetDatabase.GetAssetPath(resourceDir);
+
+        
+        string path = dir + "/" + name;
+ 
 
         GameObject go = Resources.Load<GameObject>(path);
 
         SubPool pool = new SubPool(trans, go);
+        Debug.Log("pool---------"+pool);
         _pools.Add(pool.Name, pool);
     }
 

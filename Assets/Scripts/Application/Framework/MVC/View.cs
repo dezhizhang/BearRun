@@ -1,9 +1,12 @@
 using System.Collections.Generic;
+using UnityEngine;
 
-public abstract class View
+public abstract class View:MonoBehaviour
 {
     public abstract string Name { get; }
-
+  
+    // 关注事件列表
+    [HideInInspector]
     public List<string> attentionList = new List<string>();
 
     public abstract void HandleEvent(string eventName, object data);

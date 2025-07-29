@@ -19,7 +19,6 @@ public abstract class MVC
     /// <param name="model"></param>
     public static void RegisterModel(Model model)
     {
-        
         models.Add(model.Name, model);
     }
 
@@ -48,7 +47,10 @@ public abstract class MVC
     /// <param name="controllerType"></param>
     public static void RegisterController(string eventName, Type controllerType)
     {
-        commandMap.Add(eventName, controllerType);
+        if (!commandMap.ContainsKey(eventName))
+        {
+            commandMap.Add(eventName, controllerType);
+        }
     }
 
     /// <summary>

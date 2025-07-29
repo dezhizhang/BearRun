@@ -38,7 +38,7 @@ public class Game : MonoSignleton<Game>
         // 注册开始控制器
         RegisterController(Constants.E_START_UP_CONTROLLER, typeof(StartUpController));
         // 加载关卡
-        Game.Instance.LoadLevel(1);
+        Game.Instance.LoadLevel(4);
     }
 
     /// <summary>
