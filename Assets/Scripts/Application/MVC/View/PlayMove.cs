@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -55,8 +56,48 @@ public class PlayMove : View
             Vector3 dir = Input.mousePosition - _mousePos;
             if (dir.magnitude > 20f)
             {
-                Debug.Log("滑动成功");
+                if (Mathf.Abs(dir.x) > Mathf.Abs(dir.y) && dir.x > 0)
+                {
+                    // 向右滑动
+                    _inputDir = InputDir.Right;
+                }
+
+                else if (Mathf.Abs(dir.x) > Mathf.Abs(dir.y) && dir.x < 0)
+                {
+                    // 向左移动
+                    _inputDir = InputDir.Left;
+                }
+                else if (Mathf.Abs(dir.y) > Mathf.Abs(dir.x) && dir.y > 0)
+                {
+                    // 向上移动
+                    _inputDir = InputDir.Up;
+                }
+                else if (Mathf.Abs(dir.y) > Mathf.Abs(dir.x) && dir.y < 0)
+                {
+                    // 向下移动
+                    _inputDir = InputDir.Down;
+                }
             }
+
+            _activeInput = false;
+        }
+
+        // 按键按下事件上下左右
+        if (Input.GetKey(KeyCode.W))
+        {
+            _inputDir = InputDir.Up;
+        }
+        else if (Input.GetKey(KeyCode.S))
+        {
+            _inputDir = InputDir.Down;
+        }
+        else if (Input.GetKey(KeyCode.A))
+        {
+            _inputDir = InputDir.Left;
+        }
+        else if (Input.GetKey(KeyCode.D))
+        {
+            _inputDir = InputDir.Right;
         }
     }
 }
