@@ -19,6 +19,7 @@ public class Game : MonoSignleton<Game>
     public ObjectPool objectPool;
 
     // 隐藏属性
+    // 隐藏属性
     [HideInInspector]
     // 全局对像数据
     public StaticData staticData;

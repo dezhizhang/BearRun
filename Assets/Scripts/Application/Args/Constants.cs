@@ -11,9 +11,21 @@ public static class Constants
 
     // 启动控制器
     public const string E_START_UP_CONTROLLER = "e_start_up_controller";
-    
+
     /// <summary>
     /// 视图名称
     /// </summary>
     public const string V_PLAY_MOVE = "v_play_move";
+
+    /// <summary>
+    /// 输入方向
+    /// </summary>
+    public enum InputDir
+    {
+        Null,
+        Right,
+        Left,
+        Up,
+        Down,
+    }
 }

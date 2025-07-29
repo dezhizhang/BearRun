@@ -27,7 +27,8 @@ public class RoadChange : MonoBehaviour
             parent.transform.position = Vector3.zero;
             parent.name = "Road";
         }
-
+        
+  
         // 创建道路
         roadNow = Game.Instance.objectPool.Spawn("Pattern_1", parent.transform);
         roadNext = Game.Instance.objectPool.Spawn("Pattern_2", parent.transform);

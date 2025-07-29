@@ -8,10 +8,10 @@ using System.Collections.Generic;
 public class ObjectPool : MonoSignleton<ObjectPool>
 {
     // 资源目录
-    public UnityEngine.Object  resourceDir;
+    public UnityEngine.Object resourceDir;
 
     // 存储不同类型的subpool的字典
-    private Dictionary<string, SubPool> _pools = new Dictionary<string, SubPool>();
+    private Dictionary<string, SubPool> _pools = new Dictionary<string,SubPool>();
 
     /// <summary>
     /// 返回指定名称的物体
@@ -20,12 +20,14 @@ public class ObjectPool : MonoSignleton<ObjectPool>
     /// <returns></returns>
     public GameObject Spawn(string name, Transform trans)
     {
-        SubPool pool;
-        if (!_pools.ContainsKey(name))
+        SubPool pool = null;
+        Debug.Log("name"+name);
+        Debug.Log("_pools.ContainsKey(name)"+!_pools.ContainsKey(name));
+        if (_pools.ContainsKey(name))
         {
             RegisterNew(name, trans);
         }
-
+        
         pool = _pools[name];
         return pool.Spawn();
     }
@@ -36,18 +38,18 @@ public class ObjectPool : MonoSignleton<ObjectPool>
     /// <returns></returns>
     public void RegisterNew(string name, Transform trans)
     {
-        
         string dir = UnityEditor.AssetDatabase.GetAssetPath(resourceDir);
 
-        
+
         string path = dir + "/" + name;
- 
+
 
         GameObject go = Resources.Load<GameObject>(path);
 
         SubPool pool = new SubPool(trans, go);
-        Debug.Log("pool---------"+pool);
+        Debug.Log("pool---------" + pool.Spawn());
         _pools.Add(pool.Name, pool);
+       
     }
 
     /// <summary>
