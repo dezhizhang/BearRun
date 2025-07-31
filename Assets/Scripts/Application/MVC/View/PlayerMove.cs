@@ -14,6 +14,12 @@ public class PlayerMove : View
     // 当前所在车道
     public int currentLane = 0;
 
+    // 重力加速值
+    public float gravityValue = -9.8f;
+
+    // 玩家跳跃的高度
+    public float jumpHeight = 1.0f;
+
     // 输入方向
     private InputDir _inputDir = InputDir.Null;
 
@@ -22,6 +28,12 @@ public class PlayerMove : View
     private Vector3 _mousePos;
 
     private CharacterController _controller;
+
+    // 玩家是否在地上
+    private bool _isGrounded = true;
+
+    // 玩家重力
+    private Vector3 _playerVelocity;
 
     public override string Name
     {
@@ -121,6 +133,8 @@ public class PlayerMove : View
             case InputDir.Null:
                 break;
             case InputDir.Up:
+                // 角色向上跳跃的高度
+                _playerVelocity.y = _playerVelocity.y + Mathf.Sqrt(jumpHeight * -3 * gravityValue);
                 break;
             case InputDir.Down:
                 break;
@@ -140,11 +154,26 @@ public class PlayerMove : View
 
     private void DoMove()
     {
+        // 玩家是否在地面上
+        _isGrounded = _controller.isGrounded;
+        // 
+        if (_isGrounded && _playerVelocity.y < 0)
+        {
+            // 玩家在地面时
+            _playerVelocity.y = 0;
+        }
+
+
         float targetX = currentLane * landDistance;
         Vector3 targetPos = new Vector3(targetX, transform.position.y, transform.position.z);
         // 移动方向
         Vector3 moveDir = targetPos - transform.position;
         _controller.Move((moveDir + transform.forward) * speed * Time.deltaTime);
+
+        // 模拟玩家重力
+        _playerVelocity.y = _playerVelocity.y + gravityValue * Time.deltaTime;
+        // 更新玩家跳跃动画
+        _controller.Move(_playerVelocity * Time.deltaTime);
         // _controller.Move(transform.forward * speed * Time.deltaTime);
     }
 
