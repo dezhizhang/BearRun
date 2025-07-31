@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Constants;
 
-public class PlayMove : View
+public class PlayerMove : View
 {
     public float speed = 20.0f;
 
@@ -126,6 +126,7 @@ public class PlayMove : View
                 break;
             case InputDir.Left:
                 MoveLane(false);
+
                 break;
             case InputDir.Right:
                 MoveLane(true);
@@ -133,6 +134,8 @@ public class PlayMove : View
             default:
                 break;
         }
+
+        SendMessage(Constants.E_ANIM_MANAGER, _inputDir);
     }
 
     private void DoMove()
