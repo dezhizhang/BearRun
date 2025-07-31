@@ -133,8 +133,12 @@ public class PlayerMove : View
             case InputDir.Null:
                 break;
             case InputDir.Up:
-                // 角色向上跳跃的高度
-                _playerVelocity.y = _playerVelocity.y + Mathf.Sqrt(jumpHeight * -3 * gravityValue);
+                if (_isGrounded)
+                {
+                    // 角色向上跳跃的高度
+                    _playerVelocity.y = _playerVelocity.y + Mathf.Sqrt(jumpHeight * -3 * gravityValue);
+                }
+                
                 break;
             case InputDir.Down:
                 break;
